@@ -5,12 +5,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'cdn.dummyjson.com', // Specify the hostname of the external image source
-        pathname: '/products/images/**', // Allow all paths under this directory
+        hostname: 'cdn.dummyjson.com',
+        pathname: '/products/images/**',
       },
     ],
   },
 };
-// Add any other configuration options here
 
-export default nextConfig; // Correctly export the configuration
+export default nextConfig; 

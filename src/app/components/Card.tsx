@@ -10,23 +10,23 @@ const Card: React.FC<CardProps> = ({
     rate,
 }) => {
     return (
-        <div className="card bg-base-100 w-96 shadow-xl ">
+        <div className="card bg-base-100 w-96 shadow-xl lg:max-w-80 max-w-44 lg:text-center text-center">
             <figure>
                 <Image
-                    width={300}
-                    height={300}
-
+                    width={150}
+                    height={150}
                     src={image}
-                    alt="Shoes"
+                    alt={title}
+
                 />
             </figure>
             <div className="card-body">
                 <h2 className="card-title">{title}</h2>
-                <p>{description}</p>
-                <p>{rate}</p>
-                <div className="card-actions justify-end">
-                    <button className="btn btn-primary">{price}</button>
-                    <button className="btn btn-primary">Buy Now</button>
+                {/* <p>{description}</p> */}
+                <p>Rate:{rate}</p>
+                <div className="card-actions justify-center">
+                    <button className="btn btn-ghost ">Price : {price}</button>
+                    <button className="btn btn-warning">Buy Now</button>
                 </div>
             </div>
         </div>
