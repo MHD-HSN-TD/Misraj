@@ -13,11 +13,13 @@ import { CiSearch } from "react-icons/ci";
 
 export default function Home() {
   const itemsPerPage = 10;
+  //external logic
   const { searchQuery, setSearchQuery, sortBy, setSortBy, filterCategory, setFilterCategory, categories, setCategories,
   } = useFilters();
   const { currentPage, setCurrentPage } = usePagination();
   const { error, setError, products, setProducts, isLoding, setIsLoding, isEmpty, setIsEmpty } = useGetProducts(searchQuery, sortBy, filterCategory, currentPage, itemsPerPage);
 
+  // states
   const [searchValue, setSearchValue] = useState<string>('')
   const [filterhValue, setFilterhValue] = useState<string>('')
 
@@ -39,7 +41,7 @@ export default function Home() {
 
   const onChangFilterhHandler = (e: any): void => {
     console.log(e.target.value)
-    // setFilterhValue(e.target.value)
+    setFilterhValue(e.target.value)
   };
 
   const filterHandle = (): void => {
@@ -59,9 +61,9 @@ export default function Home() {
 
   return (
     <>
-      <div className="bg-slate-300 max-w-md m-auto rounded-md">
+      <div className="bg-blue-400 lg:max-w-md max-w-sm m-auto rounded-md my-5">
 
-        <div className="flex align-middle justify-around my-2">
+        <div className="flex justify-center items-center my-2 ">
           <input
             type="text"
             placeholder="Search products..."
@@ -74,27 +76,29 @@ export default function Home() {
         </div>
 
 
-        <div className="flex">
+        <div className="flex  justify-center items-center my-2">
           <Button color="primary" size="regular" className="m-2"
             onClick={() => setSortBy('price')}
-            icon={<CgAdidas />} >setSortBy price</Button>
+            icon={<CgAdidas />} >SortBy price</Button>
 
           <Button color="primary" size="regular" className="m-2"
             onClick={() => setSortBy('rating')}
-            icon={<CgAdidas />} >setSortBy rating</Button>
+            icon={<CgAdidas />} >SortBy rating</Button>
         </div>
 
 
-        <select
-          // value={filterCategory}
-          onChange={(e) => onChangFilterhHandler(e)} className="p-2 border rounded">
-          <option value="">All Categories</option>
-          {categories.map((category) => (
-            <option key={category} value={category}>{category}</option>
-          ))}
-        </select>
-        <Button color="primary" size="regular" icon={<CiSearch />} className="p-2"
-          onClick={() => filterHandle()}>Search</Button>
+        <div className="flex justify-center items-center my-2">
+          <select
+            // value={filterCategory}
+            onChange={(e) => onChangFilterhHandler(e)} className="p-2 m-2 border rounded">
+            <option value="">All Categories</option>
+            {categories.map((category) => (
+              <option key={category} value={category}>{category}</option>
+            ))}
+          </select>
+          <Button color="primary" size="regular" icon={<CiSearch />} className="p-2"
+            onClick={() => filterHandle()}>Search</Button>
+        </div>
       </div>
 
 
