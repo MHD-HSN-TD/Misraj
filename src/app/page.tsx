@@ -1,29 +1,19 @@
 "use client";
-import Image from "next/image";
 import Button from "./components/Button";
-import {
-  CgAbstract,
-  CgAdidas,
-  CgArrowBottomRightO,
-  CgArrowLeft,
-  CgArrowRight,
-  CgCalendarNext,
-  CgPlayTrackNext,
-} from "react-icons/cg";
+import { CgArrowLeft, CgArrowRight } from "react-icons/cg";
 import { useGetProducts } from "./Hooks/useGetProducts";
 import Card from "./components/Card";
-import { Product } from "./interfaces/interfaces";
 import Skeleton from "./components/Skeleton";
 import useFilters from "./Hooks/useFilter";
 import usePagination from "./Hooks/usePagination";
-import { EventHandler, useState } from "react";
+import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { MdStarRate } from "react-icons/md";
 import { FaDollarSign, FaFilter } from "react-icons/fa";
 
 export default function Home() {
+  //TODO : I followed a HOOK Pattern to do all the task
   const itemsPerPage = 10;
-
   //external logic
   const {
     searchQuery,
@@ -48,17 +38,14 @@ export default function Home() {
   const [filterhValue, setFilterhValue] = useState<string>("");
 
   const onChangSearchHandler = (e: any): void => {
-    // console.log(e.target.value)
     setSearchValue(e.target.value);
   };
 
   const onChangFilterhHandler = (e: any): void => {
-    // console.log(e.target.value)
     setFilterhValue(e.target.value);
   };
 
   const searchHandler = (): void => {
-    // console.log("searchValue", searchValue)
     // clear the Previous APIs
     setSortBy(null);
     setFilterCategory(null);
@@ -73,6 +60,8 @@ export default function Home() {
     setFilterCategory(filterhValue);
   };
 
+  //TODO: I could make every part of this page as Component for better prefornace and clean Arch
+  //! But I intended to make the APP run after that i can do the enhancments
   return (
     <>
       {/* Control Section */}
@@ -122,7 +111,8 @@ export default function Home() {
         <div className="flex justify-center items-center my-2">
           <select
             onChange={(e) => onChangFilterhHandler(e)}
-            className="p-2 m-2 border rounded">
+            className="p-2 m-2 border rounded"
+          >
             <option value="">All Categories</option>
             {categories.map((category) => (
               <option key={category} value={category}>
@@ -158,33 +148,33 @@ export default function Home() {
       </div>
 
       {/* Pagenation Section */}
-      <p className="text-xl text-center m-5">{isEmpty && "There is no Data"}</p>
-      <p className="text-xl text-center m-5">
-        {error && "Something went Wrong"}
-      </p>
-      <div className="flex justify-center mt-4">
-        <Button
-          color="primary"
-          size="regular"
-          onClick={() => setCurrentPage(currentPage - 1)}
-          icon={<CgArrowLeft />}
-          disabled={currentPage === 1}
-        >
-          {/* Previous */}
-        </Button>
+      <div className="Pagenation Section">
+        <p className="text-xl text-center m-5">
+          {isEmpty && "There is no Data"}
+        </p>
+        <p className="text-xl text-center m-5">
+          {error && "Something went Wrong"}
+        </p>
+        <div className="flex justify-center mt-4">
+          <Button
+            color="primary"
+            size="regular"
+            onClick={() => setCurrentPage(currentPage - 1)} //currentPage is 1 by default as it is defined in the component
+            icon={<CgArrowLeft />}
+            disabled={currentPage === 1}
+          ></Button>
 
-        <span className="mx-4 m-auto">
-          {!isEmpty && "Page"} {!isEmpty && currentPage}
-        </span>
-        <Button
-          color="primary"
-          size="regular"
-          onClick={() => setCurrentPage(currentPage + 1)}
-          disabled={products.length < itemsPerPage}
-          icon={<CgArrowRight />}
-        >
-          {/* Next */}
-        </Button>
+          <span className="mx-4 m-auto">
+            {!isEmpty && "Page"} {!isEmpty && currentPage}
+          </span>
+          <Button
+            color="primary"
+            size="regular"
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={products.length < itemsPerPage}
+            icon={<CgArrowRight />}
+          ></Button>
+        </div>
       </div>
     </>
   );

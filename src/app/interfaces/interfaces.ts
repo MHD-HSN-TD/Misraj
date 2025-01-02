@@ -1,7 +1,7 @@
 
 export interface ButtonProps {
     color: "primary" | "secondary"; //as the task requirements
-    size: "regular" | "small" | "large" | "disabled"; //as the task requirements
+    size: "regular" | "small" | "large"; //as the task requirements
     icon: React.ReactNode;
     disabled?: boolean,
     className?: string,
@@ -26,41 +26,12 @@ export interface Product {
     rating?: number;
     category: string;
     description: string;
-    thumbnail?: string; // Assuming this is a URL or path to an image
+    thumbnail?: string; // for the image
 }
-
-
-// export interface Product {
-//     id: number;
-//     title: string;
-//     description: string;
-//     category: string;
-//     price: number;
-//     discountPercentage: number;
-//     rating: number;
-//     stock: number;
-//     tags: string[];
-//     brand: string;
-//     sku: string;
-//     weight: number;
-//     // dimensions: Dimensions;
-//     dimensions: any;
-//     warrantyInformation: string;
-//     shippingInformation: string;
-//     availabilityStatus: string;
-//     // reviews: Review[];
-//     reviews: any;
-//     returnPolicy: string;
-//     minimumOrderQuantity: number;
-//     // meta: Meta; // Nested object
-//     meta: any; // Nested object
-//     images: string[]; // Array of image URLs or paths
-// }
-
 export interface ProductsResponse {
     products: Product[]; // Array of products
-    total: number; // Total number of products available
-    skip: number; // Number of products skipped (for pagination)
-    limit: number; // Limit on the number of products returned in this response
+    total: number;
+    skip: number;
+    limit: number;
 }
 

@@ -1,137 +1,143 @@
 "use client";
 import axios, { AxiosResponse } from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Product, ProductsResponse } from "../interfaces/interfaces";
 
 export const useAddProduct = () => {
-    const [error, setError] = useState<string | null>(null);
-    const [success, setSuccess] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+  // handle the errore ,success and loading state
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    // States for inputs
-    const [productTitle, setTitle] = useState<string>('');
-    const [productPrice, setPrice] = useState<string>('');
-    const [productCategory, setCategory] = useState<string>('');
-    const [productDescription, setDescription] = useState<string>('');
+  // States for inputs
+  const [productTitle, setTitle] = useState<string>("");
+  const [productPrice, setPrice] = useState<string>("");
+  const [productCategory, setCategory] = useState<string>("");
+  const [productDescription, setDescription] = useState<string>("");
 
+  // States for errors
+  const [titleError, setTitleError] = useState<string>("");
+  const [priceError, setPriceError] = useState<string>("");
+  const [categoryError, setCategoryError] = useState<string>("");
+  const [descriptionError, setDescriptionError] = useState<string>("");
 
-    // States for errors
-    const [titleError, setTitleError] = useState<string>('');
-    const [priceError, setPriceError] = useState<string>('');
-    const [categoryError, setCategoryError] = useState<string>('');
-    const [descriptionError, setDescriptionError] = useState<string>('');
+  // empty the inputs
+  const EmptyInputs = (e: React.FormEvent) => {
+    e.preventDefault();
+    setTitle("");
+    setPrice("");
+    setCategory("");
+    setDescription("");
+  };
 
-    const EmptyInputs = (e: React.FormEvent) => {
-        e.preventDefault()
-        setTitle('')
-        setPrice('')
-        setCategory('')
-        setDescription('')
+  // handle the save operation
+  const saveHandler = (e: React.FormEvent) => {
+    e.preventDefault(); //prevent the reFresh proccess
+    console.log("saved ! ");
+  };
+
+  // handle the submit operation
+  const submitHandler = (e: React.FormEvent) => {
+    e.preventDefault(); //prevent the reFresh proccess
+    addProduct(); //call addProduct APi
+    EmptyInputs(e); //after the APi
+  };
+
+  // Validation function
+  const validateForm = () => {
+    let isValid = true;
+
+    if (!productTitle) {
+      setTitleError("Title is required.");
+      isValid = false;
+    } else {
+      setTitleError("");
     }
 
-    const saveHandler = (e: React.FormEvent) => {
-        e.preventDefault(); //prevent the reFresh proccess
-        console.log("saved ! ")
+    if (!productPrice) {
+      setPriceError("Price is required.");
+      isValid = false;
+    } else if (isNaN(Number(productPrice))) {
+      setPriceError("Price must be a number.");
+      isValid = false;
+    } else {
+      setPriceError("");
     }
 
-    const submitHandler = (e: React.FormEvent) => {
-        e.preventDefault(); //prevent the reFresh proccess
-        addProduct();//call addProduct APi
-        EmptyInputs(e)//after the APi
+    if (!productCategory) {
+      setCategoryError("Category is required.");
+      isValid = false;
     }
 
-    // Validation function
-    const validateForm = () => {
-        let isValid = true;
+    if (productCategory === "") {
+      setCategoryError("Choose category.");
+      isValid = false;
+    } else {
+      setCategoryError("");
+    }
 
-        if (!productTitle) {
-            setTitleError("Title is required.");
-            isValid = false;
-        } else {
-            setTitleError("");
-        }
+    if (!productDescription) {
+      setDescriptionError("Description is required.");
+      isValid = false;
+    } else {
+      setDescriptionError("");
+    }
 
-        if (!productPrice) {
-            setPriceError("Price is required.");
-            isValid = false;
-        } else if (isNaN(Number(productPrice))) {
-            setPriceError("Price must be a number.");
-            isValid = false;
-        } else {
-            setPriceError("");
-        }
+    return isValid;
+  };
 
-        if (!productCategory) {
-            setCategoryError("Category is required.");
-            isValid = false;
-        }
+  const addProduct = async () => {
+    try {
+      //simple validation
+      if (!validateForm()) return; // Stop if validation fails
 
-        if (productCategory === '') {
-            setCategoryError("Choose category.");
-            isValid = false;
-        } else {
-            setCategoryError("");
-        }
+      setIsLoading(true); // Set loading to true when the request starts
+      setSuccess(false); // Reset success state
+      setError(null); // Reset error state
 
-        if (!productDescription) {
-            setDescriptionError("Description is required.");
-            isValid = false;
-        } else {
-            setDescriptionError("");
-        }
+      const url = "https://dummyjson.com/products/add";
+      const data: Product = {
+        title: productTitle,
+        category: productCategory,
+        price: productPrice,
+        description: productDescription,
+      };
 
-        return isValid;
-    };
+      console.log("URL is", url);
+      const response: AxiosResponse<ProductsResponse> = await axios.post(
+        url,
+        data
+      );
 
-    const addProduct = async () => {
-        try {
-            //simple validation
-            if (!validateForm()) return; // Stop if validation fails
+      console.log(response);
+      setSuccess(true); // Set success to true after a successful response
+      setIsLoading(false); // Set loading to false after the request completes
+    } catch (err) {
+      setError("Failed to add product"); // Handle any errors that occur during the request
+      console.error(err);
+      setIsLoading(false); // Set loading to false if there's an error
+    }
+  };
 
-            setIsLoading(true); // Set loading to true when the request starts
-            setSuccess(false); // Reset success state
-            setError(null); // Reset error state
-
-            const url = 'https://dummyjson.com/products/add';
-            const data: Product = {
-                title: productTitle,
-                category: productCategory,
-                price: productPrice,
-                description: productDescription,
-            };
-
-            console.log("URL is", url);
-            const response: AxiosResponse<ProductsResponse> = await axios.post(url, data);
-
-            console.log(response);
-            setSuccess(true); // Set success to true after a successful response
-            setIsLoading(false); // Set loading to false after the request completes
-        } catch (err) {
-            setError("Failed to add product"); // Handle any errors that occur during the request
-            console.error(err);
-            setIsLoading(false); // Set loading to false if there's an error
-        }
-    };
-
-    return {
-        addProduct,
-        productTitle,
-        setTitle,
-        productPrice,
-        setPrice,
-        productCategory,
-        setCategory,
-        productDescription,
-        setDescription,
-        error,
-        success,
-        isLoading,
-        EmptyInputs,
-        saveHandler,
-        submitHandler,
-        titleError,
-        priceError,
-        categoryError,
-        descriptionError,
-    };
+  return {
+    addProduct,
+    productTitle,
+    setTitle,
+    productPrice,
+    setPrice,
+    productCategory,
+    setCategory,
+    productDescription,
+    setDescription,
+    error,
+    success,
+    isLoading,
+    EmptyInputs,
+    saveHandler,
+    submitHandler,
+    titleError,
+    priceError,
+    categoryError,
+    descriptionError,
+  };
 };
