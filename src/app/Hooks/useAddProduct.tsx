@@ -103,7 +103,7 @@ export const useAddProduct = () => {
         description: productDescription,
       };
 
-      console.log("URL is", url);
+      // console.log("URL is", url);
       const response: AxiosResponse<ProductsResponse> = await axios.post(
         url,
         data

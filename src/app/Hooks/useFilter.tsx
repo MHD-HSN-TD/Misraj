@@ -16,7 +16,7 @@ const useFilters = () => {
         setIsLoding(true);
         let url = `https://dummyjson.com/products/category-list`;
 
-        console.log("URL iS", url);
+        // console.log("URL iS", url);
         const response: AxiosResponse<string[]> = await axios.get(url);
         setCategories(response.data);
         setIsLoding(false);

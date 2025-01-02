@@ -14,12 +14,12 @@ const Card: React.FC<CardProps> = ({
       <figure>
         <Image width={150} height={150} src={image || ""} alt={title} />
       </figure>
-      <div className="card-body">
-        <h2 className="card-title">{title}</h2>
+      <div className="card-body ">
+        <h2 className="card-title justify-center">{title}</h2>
         {/* <p>{description}</p> */}
-        <p>Rate:{rate}</p>
-        <div className="card-actions justify-center">
-          <button className="btn btn-ghost ">Price : {price}</button>
+        <p className="">Rate: {rate}</p>
+        <p className="">Price : {price} $</p>
+        <div className="card-actions justify-center ">
           <button className="btn btn-warning">Buy Now</button>
         </div>
       </div>
