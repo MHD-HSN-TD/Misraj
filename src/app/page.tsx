@@ -127,7 +127,7 @@ export default function Home() {
             className="p-2"
             onClick={() => filterHandle()}
           >
-            Search
+            Filter
           </Button>
         </div>
       </div>
