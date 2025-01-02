@@ -10,23 +10,23 @@ export interface ButtonProps {
 };
 
 export interface CardProps {
-    image: string; //as the task requirements
+    image?: string; //as the task requirements
     title: string; //as the task requirements
     description?: string; //as the task requirements
-    price: number; //as the task requirements
-    rate: number; //as the task requirements
+    price: string; //as the task requirements
+    rate?: number; //as the task requirements
 
 };
 
 export interface Product {
 
-    id: number;
+    id?: number;
     title: string;
-    price: number;
-    rating: number;
+    price: string;
+    rating?: number;
     category: string;
     description: string;
-    thumbnail: string; // Assuming this is a URL or path to an image
+    thumbnail?: string; // Assuming this is a URL or path to an image
 }
 
 

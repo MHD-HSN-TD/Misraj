@@ -12,7 +12,7 @@ const Card: React.FC<CardProps> = ({
   return (
     <div className="card bg-base-100 w-96 shadow-xl lg:max-w-80 max-w-60 lg:text-center text-center">
       <figure>
-        <Image width={150} height={150} src={image} alt={title} />
+        <Image width={150} height={150} src={image || ""} alt={title} />
       </figure>
       <div className="card-body">
         <h2 className="card-title">{title}</h2>
