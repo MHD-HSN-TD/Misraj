@@ -8,10 +8,18 @@ export const useAddProduct = () => {
     const [success, setSuccess] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
+    // States for inputs
     const [productTitle, setTitle] = useState<string>('');
     const [productPrice, setPrice] = useState<string>('');
     const [productCategory, setCategory] = useState<string>('');
     const [productDescription, setDescription] = useState<string>('');
+
+
+    // States for errors
+    const [titleError, setTitleError] = useState<string>('');
+    const [priceError, setPriceError] = useState<string>('');
+    const [categoryError, setCategoryError] = useState<string>('');
+    const [descriptionError, setDescriptionError] = useState<string>('');
 
     const EmptyInputs = (e: React.FormEvent) => {
         e.preventDefault()
@@ -26,16 +34,60 @@ export const useAddProduct = () => {
         console.log("saved ! ")
     }
 
-
-
     const submitHandler = (e: React.FormEvent) => {
         e.preventDefault(); //prevent the reFresh proccess
         addProduct();//call addProduct APi
         EmptyInputs(e)//after the APi
     }
 
+    // Validation function
+    const validateForm = () => {
+        let isValid = true;
+
+        if (!productTitle) {
+            setTitleError("Title is required.");
+            isValid = false;
+        } else {
+            setTitleError("");
+        }
+
+        if (!productPrice) {
+            setPriceError("Price is required.");
+            isValid = false;
+        } else if (isNaN(Number(productPrice))) {
+            setPriceError("Price must be a number.");
+            isValid = false;
+        } else {
+            setPriceError("");
+        }
+
+        if (!productCategory) {
+            setCategoryError("Category is required.");
+            isValid = false;
+        }
+
+        if (productCategory === '') {
+            setCategoryError("Choose category.");
+            isValid = false;
+        } else {
+            setCategoryError("");
+        }
+
+        if (!productDescription) {
+            setDescriptionError("Description is required.");
+            isValid = false;
+        } else {
+            setDescriptionError("");
+        }
+
+        return isValid;
+    };
+
     const addProduct = async () => {
         try {
+            //simple validation
+            if (!validateForm()) return; // Stop if validation fails
+
             setIsLoading(true); // Set loading to true when the request starts
             setSuccess(false); // Reset success state
             setError(null); // Reset error state
@@ -76,6 +128,10 @@ export const useAddProduct = () => {
         isLoading,
         EmptyInputs,
         saveHandler,
-        submitHandler
+        submitHandler,
+        titleError,
+        priceError,
+        categoryError,
+        descriptionError,
     };
 };
